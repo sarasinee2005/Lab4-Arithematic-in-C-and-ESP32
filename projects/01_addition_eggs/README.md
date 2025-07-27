@@ -82,7 +82,7 @@ int eggs_new_today = 3;       // เพิ่มเป็น 3 ฟอง
 เพิ่มโค้ดนี้หลังบรรทัด `int total_eggs;`:
 ```c
 int duck_eggs = 3;            // ไข่เป็ดที่แม่มี
-int total_all_eggs;           // ไข่ทั้งหมด (ไก่ + เป็ด)
+ int total_all_eggs;           // ไข่ทั้งหมด (ไก่ + เป็ด)
 ```
 
 แล้วเพิ่มการคำนวณหลังบรรทัด `total_eggs = eggs_already_have + eggs_new_today;`:

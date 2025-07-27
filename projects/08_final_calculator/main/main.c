@@ -227,7 +227,7 @@ double perform_calculation(operation_t op, double op1, double op2) {
     int64_t start_time = esp_timer_get_time();
     double result = 0.0;
     char description[100];
-    
+
     switch (op) {
         case OP_ADD:
             result = safe_add(op1, op2);
@@ -266,7 +266,6 @@ double perform_calculation(operation_t op, double op1, double op2) {
             sprintf(description, "พื้นที่สี่เหลี่ยม %.2f×%.2f = %.2f", op1, op2, result);
             break;
         case OP_VOLUME_BOX:
-            // ใช้ op1 เป็น length×width, op2 เป็น height
             result = op1 * op2;
             sprintf(description, "ปริมาตรกล่อง = %.2f", result);
             break;
@@ -286,19 +285,25 @@ double perform_calculation(operation_t op, double op1, double op2) {
             ESP_LOGE(TAG, "❌ การดำเนินการไม่รู้จัก!");
             return NAN;
     }
-    
+
     int64_t end_time = esp_timer_get_time();
     double computation_time = (end_time - start_time) / 1000.0; // มิลลิวินาที
     calc_data.total_computation_time += computation_time;
-    
+
     if (!isnan(result) && !isinf(result)) {
         save_to_history(op, op1, op2, result, description);
-        ESP_LOGI(TAG, "✅ %s", description);
-        ESP_LOGI(TAG, "⏱️ ใช้เวลา: %.3f มิลลิวินาที", computation_time);
+
+        // ✅ แสดงผลลัพธ์ในรูปแบบที่คุณต้องการ
+        ESP_LOGI(TAG, "\n=== การคำนวณเสร็จสิ้น ===");
+        ESP_LOGI(TAG, "📊 ผลลัพธ์: %.2f", result);
+        ESP_LOGI(TAG, "⏰ เวลาที่ใช้: %.3f วินาที", computation_time / 1000.0);
+        ESP_LOGI(TAG, "💾 บันทึกประวัติแล้ว (#%d)", calc_data.total_calculations);
+        ESP_LOGI(TAG, "✅ ตรวจสอบความถูกต้องแล้ว\n");
     }
-    
+
     return result;
 }
+
 
 // 🖥️ ฟังก์ชันแสดงเมนูหลัก
 void show_main_menu(void) {

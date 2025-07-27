@@ -128,6 +128,47 @@ void calculate_triangle_bonus(void) {
              side1, side2, side3, perimeter);
     ESP_LOGI(TAG, "╚═══════════════════════════════════════╝");
 }
+// 📐 ฟังก์ชันคำนวณพื้นที่สามเหลี่ยม
+void calculate_triangle_area(double base, double height) {
+    double area = 0.5 * base * height;
+    double area_in_rai = area / SQUARE_METERS_TO_RAI;
+
+    ESP_LOGI(TAG, "\n📐 พื้นที่สามเหลี่ยม:");
+    ESP_LOGI(TAG, "╔══════════════════════════════════════╗");
+    ESP_LOGI(TAG, "║ ฐาน: %.2f เมตร", base);
+    ESP_LOGI(TAG, "║ สูง: %.2f เมตร", height);
+    ESP_LOGI(TAG, "║ ➕ พื้นที่: ½ × %.2f × %.2f = %.2f ตร.ม.", base, height, area);
+    ESP_LOGI(TAG, "║ 🌾 เท่ากับ: %.6f ไร่", area_in_rai);
+    ESP_LOGI(TAG, "╚══════════════════════════════════════╝");
+}
+
+// 🍦 ฟังก์ชันคำนวณปริมาตรทรงกรวย
+void calculate_cone_volume(double radius, double height) {
+    double base_area = PI * radius * radius;
+    double volume = (1.0 / 3.0) * base_area * height;
+
+    ESP_LOGI(TAG, "\n🍦 ปริมาตรทรงกรวย:");
+    ESP_LOGI(TAG, "╔══════════════════════════════════════╗");
+    ESP_LOGI(TAG, "║ รัศมี: %.2f เมตร", radius);
+    ESP_LOGI(TAG, "║ สูง: %.2f เมตร", height);
+    ESP_LOGI(TAG, "║ 📐 พื้นที่ฐาน: π × %.2f² = %.2f ตร.ม.", radius, base_area);
+    ESP_LOGI(TAG, "║ 💧 ปริมาตร: (1/3) × %.2f × %.2f = %.2f ลบ.ม.", base_area, height, volume);
+    ESP_LOGI(TAG, "╚══════════════════════════════════════╝");
+}
+
+// 🔁 แปลงหน่วยเมตร → ตร.ม. → ไร่
+void convert_to_rai(double length, double width) {
+    double area = length * width;
+    double rai = area / SQUARE_METERS_TO_RAI;
+
+    ESP_LOGI(TAG, "\n🔁 แปลงหน่วยพื้นที่:");
+    ESP_LOGI(TAG, "╔══════════════════════════════════════╗");
+    ESP_LOGI(TAG, "║ ความยาว: %.2f เมตร", length);
+    ESP_LOGI(TAG, "║ ความกว้าง: %.2f เมตร", width);
+    ESP_LOGI(TAG, "║ ➕ พื้นที่: %.2f ตร.ม.", area);
+    ESP_LOGI(TAG, "║ 🌾 เท่ากับ: %.6f ไร่", rai);
+    ESP_LOGI(TAG, "╚══════════════════════════════════════╝");
+}
 
 void app_main(void) {
     ESP_LOGI(TAG, "🚀 เริ่มต้นโปรแกรมคณิตศาสตร์ขั้นสูง!");
@@ -188,6 +229,16 @@ void app_main(void) {
     // โบนัสท้าทาย
     calculate_triangle_bonus();
     
+     // ➕ เพิ่มฟีเจอร์ใหม่
+    calculate_triangle_area(12.0, 7.0);
+    vTaskDelay(pdMS_TO_TICKS(2000));
+
+    calculate_cone_volume(3.0, 6.0);
+    vTaskDelay(pdMS_TO_TICKS(2000));
+
+    convert_to_rai(40.0, 40.0);  // ตัวอย่าง: 40×40 ตารางเมตร
+    vTaskDelay(pdMS_TO_TICKS(2000));
+
     ESP_LOGI(TAG, "\n✅ เสร็จสิ้นการคำนวณทั้งหมด!");
     ESP_LOGI(TAG, "🎓 ได้เรียนรู้: คณิตศาสตร์ขั้นสูง, struct, #define, และฟังก์ชันคณิตศาสตร์");
 }
